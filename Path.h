@@ -24,6 +24,7 @@ protected:
 
 private:
      std::vector<std::vector<int> > myGrid;
+     int direction = 1;
 };
 
 #endif
