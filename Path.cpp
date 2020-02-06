@@ -113,7 +113,64 @@ bool Path::HandleEventOnNormalKeyPress(unsigned char key){
 		exit(0);
 		return true;
 	}
-	else if 
+	else if (key == 's')
+	{
+		if (direction == 1)
+		{
+			if (myGrid[lastCellX][lastCellY+1] == 0)
+			{
+				myGrid[lastCellX][lastCellY+1] = 2;
+				lastCellY++;
+			}
+			else if (myGrid[lastCellX+1][lastCellY] == 0)
+			{
+				myGrid[lastCellX+1][lastCellY] = 2;
+				lastCellX++;
+			}
+			else if (myGrid[lastCellX][lastCellY-1] == 0)
+			{
+				myGrid[lastCellX][lastCellY-1] = 2;
+				lastCellY--;
+			}
+			else if (myGrid[lastCellX-1][lastCellY] == 0)
+			{
+				myGrid[lastCellX-1][lastCellY] = 2;
+				lastCellX--;
+			}
+			if (lastCellX == columns - 1)
+			{
+				direction = 2;
+			}
+		}
+		else
+		{
+			if (myGrid[lastCellX][lastCellY+1] == 0)
+			{
+				myGrid[lastCellX][lastCellY+1] = 2;
+				lastCellY++;
+			}
+			else if (myGrid[lastCellX-1][lastCellY] == 0)
+			{
+				myGrid[lastCellX-1][lastCellY] = 2;
+				lastCellX--;
+			}
+			else if (myGrid[lastCellX][lastCellY-1] == 0)
+			{
+				myGrid[lastCellX][lastCellY-1] = 2;
+				lastCellY--;
+			}
+			else if (myGrid[lastCellX+1][lastCellY] == 0)
+			{
+				myGrid[lastCellX+1][lastCellY] = 2;
+				lastCellX++;
+			}
+			if (lastCellX == 0)
+			{
+				direction = 1;
+			}
+		}
+	}
+	return true;
 }
 
 void Path::DrawGrid(){
