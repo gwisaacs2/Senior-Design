@@ -12,6 +12,23 @@ public class Waypoints
         this.decimal_lat = lattitude;
         this.decimal_long = longitude;
     }
+
+    void setLattitude(double decimal_lat)
+    {
+        this.decimal_lat = decimal_lat;
+    }
+    void setLongitude(double decimal_long)
+    {
+        this.decimal_long = decimal_long;
+    }
+    double getLattitude()
+    {
+        return decimal_lat;
+    }
+    double getLongitude()
+    {
+        return decimal_long;
+    }
     void convertToNMEA()
     {
         double lat, lon;
