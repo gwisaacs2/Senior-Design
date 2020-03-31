@@ -14,23 +14,23 @@ public class Waypoints
 //        this.decimal_long = longitude;
 //    }
 
-    void setLattitude(double decimal_lat)
+    void setLattitude(double decimal_lat) //setter
     {
         this.decimal_lat = decimal_lat;
     }
-    void setLongitude(double decimal_long)
+    void setLongitude(double decimal_long) //setter
     {
         this.decimal_long = decimal_long;
     }
-    double getLattitude()
+    double getLattitude() //getter
     {
         return decimal_lat;
     }
-    double getLongitude()
+    double getLongitude() //getter
     {
         return decimal_long;
     }
-    void convertToNMEA()
+    void convertToNMEA() //converts decimal to NMEA
     {
         double lat, lon;
         lat = Math.abs(this.decimal_lat);
@@ -43,7 +43,7 @@ public class Waypoints
         this.NMEA_long = (Math.floor(lon) * 100) + (temp * 60);
     }
     
-    void displayNMEA()
+    void displayNMEA() // displays in console the NMEA coordinates
     {
         convertToNMEA();
         char lat, lon;
