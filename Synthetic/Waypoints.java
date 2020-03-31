@@ -1,17 +1,18 @@
 import java.lang.Math;
+import java.util.ArrayList;
 
 public class Waypoints
 {
     
-    double decimal_lat, decimal_long;
-    double NMEA_lat,    NMEA_long;
-    char char_lat, char_long;
+    private double decimal_lat, decimal_long;
+    private double NMEA_lat,    NMEA_long;
+    private char char_lat, char_long;
     
-    Waypoints(double lattitude, double longitude)
-    {
-        this.decimal_lat = lattitude;
-        this.decimal_long = longitude;
-    }
+//    Waypoints(double lattitude, double longitude)
+//    {
+//        this.decimal_lat = lattitude;
+//        this.decimal_long = longitude;
+//    }
 
     void setLattitude(double decimal_lat)
     {
