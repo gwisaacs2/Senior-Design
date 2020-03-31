@@ -7,17 +7,17 @@ public class Main
     public static void main(String[] args)
     {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Waypoints> waypoints = new ArrayList<Waypoints>();
-        insertWaypoints( waypoints );
+        ArrayList<Waypoints> waypoints = new ArrayList<Waypoints>(); //array containing our waypoints
+        waypoints = insertWaypoints( waypoints ); //insert the first run
     }
     
     public static ArrayList<Waypoints> insertWaypoints(ArrayList<Waypoints> waypoints)
     {
         Scanner scanner = new Scanner(System.in);
-        boolean cont = true;
-        boolean accident;
-        int counter = 0;
-        String lat, lon;
+        boolean cont = true; // false if user types "stop"
+        boolean accident; // this is in case you type a string instead of a number or stop
+        int counter = 0; // iterator
+        String lat, lon; //init as string because user could type "stop" -> converted to double
         
         System.out.print( "\nInstructions: \nEnter either the coordinates of the waypoint, or type \"stop\" to stop\n\n");
             
@@ -27,12 +27,12 @@ public class Main
             {
                 System.out.printf("Enter the lattitude of waypoint %d: ", counter + 1);
                 lat = scanner.nextLine();
-                if (!isNumeric(lat) && !lat.equals("stop") ) // incorrect entry
+                if (!isNumeric(lat) && !lat.equals("stop") ) // accidental incorrect entry
                 {
                     accident = true;
                     System.out.print("\n----------- Incorrect entry ----------\n");
                 }
-                else if (isNumeric(lat)) // is correct number
+                else if (isNumeric(lat)) // is correct -> number
                 {
                     accident = false;
                     waypoints.add(counter, new Waypoints() );
@@ -45,7 +45,7 @@ public class Main
                 }
             } while (accident);
 
-            if (cont)
+            if (cont) // -> assuming that stop wasnt typed
             {
                 do
                 {
@@ -56,20 +56,20 @@ public class Main
                         accident = true;
                         System.out.print("\n----------- Incorrect entry -----------\nYou already entered a lattitude. You cannot stop now.\n");
                     }
-                    else // is correct number
+                    else // is correct -> number
                     {
                         accident = false;
                         waypoints.get(counter).setLongitude(Double.parseDouble(lon));
                     }
                 } while(accident);
             }
-            System.out.println();
+            System.out.println(); // added a line to make it look nicer
             counter++;   
         }
         return waypoints;
     }
 
-    public static boolean isNumeric(String str)
+    public static boolean isNumeric(String str) // checks if the string is a number or not
     {
         try
         {
