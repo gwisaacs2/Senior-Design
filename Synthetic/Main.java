@@ -33,13 +33,13 @@ public class Main
     public static ArrayList<Waypoints> findPath(ArrayList<Waypoints> waypoints, double radians)
     {
         System.out.println("Finding the optimal path...");
-        final double CONST_VAL = 0.008; // distance each sweep from the last (from the shore)
+        final double CONST_VAL = 0.0008; // distance each sweep from the last (from the shore)
         final int NUM_SWEEPS = 8 - 1; // number of total sweeps - 1 because we did first sweep
         double lat, lon;
         int initWaypoints = waypoints.size(); // number of initial waypoints
         int index = initWaypoints; // already did the first sweep
         int prev_index; // this is the waypoint that is in between the current waypoint and the shore
-        for (int i = 0; i < initWaypoints * NUM_SWEEPS; i++)
+        for (int i = 0; i < NUM_SWEEPS; i++)
         {
             for(int j = 0; j < initWaypoints; j++)
             {
