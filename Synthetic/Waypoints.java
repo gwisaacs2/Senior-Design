@@ -6,30 +6,32 @@ public class Waypoints
     
     private double decimal_lat, decimal_long;
     private double NMEA_lat,    NMEA_long;
+    private int depth;
     private char char_lat, char_long;
     
-//    Waypoints(double lattitude, double longitude)
-//    {
-//        this.decimal_lat = lattitude;
-//        this.decimal_long = longitude;
-//    }
+    Waypoints()
+    {
+
+    }
+
+    Waypoints(double lattitude, double longitude)
+    {
+        this.decimal_lat = lattitude;
+        this.decimal_long = longitude;
+    }
 
     void setLattitude(double decimal_lat) //setter
-    {
-        this.decimal_lat = decimal_lat;
-    }
+    { this.decimal_lat = decimal_lat; }
+
     void setLongitude(double decimal_long) //setter
-    {
-        this.decimal_long = decimal_long;
-    }
+    { this.decimal_long = decimal_long; }
+
     double getLattitude() //getter
-    {
-        return decimal_lat;
-    }
+    {return decimal_lat; }
+
     double getLongitude() //getter
-    {
-        return decimal_long;
-    }
+    { return decimal_long; }
+
     void convertToNMEA() //converts decimal to NMEA
     {
         double lat, lon;
