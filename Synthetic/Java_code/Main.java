@@ -43,7 +43,7 @@ public class Main
 //         markObstacles(waypoints); // outputs file with flags at the obstacles
 
         outputWaypoints(waypoints, "../Outputs/" + output + ".txt"); //output the track of the whole path
-//         outputNMEA(waypoints);
+        outputNMEA(waypoints);
 
 
     }
@@ -86,16 +86,16 @@ public class Main
             {
                 lat = item.getLattitude();
                 lon = item.getLongitude();
-                i = (int) Math.floor( Math.abs( (lat - LAT_MAX) / (LAT_MAX - LAT_MIN) * height) ); // subtracting from lat max because coordinates of the pixels are row & column, but the lat max is at the top of the picture
-                j = (int) Math.floor( Math.abs( (lon - LON_MIN) / (LON_MAX - LON_MIN) * width) );
-                Color c = new Color(image.getRGB(j,i));
+                j = (int) Math.floor( Math.abs( (lat - LAT_MAX) / (LAT_MAX - LAT_MIN) * height) ); // subtracting from lat max because coordinates of the pixels are row & column, but the lat max is at the top of the picture
+                i = (int) Math.floor( Math.abs( (lon - LON_MIN) / (LON_MAX - LON_MIN) * width) );
+                Color c = new Color(image.getRGB(i,j));
                 hsb = Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), null);
                 hue = hsb[0];
                 ratio = ( (hue * 360) - MIN_HUE ) / (MAX_HUE - MIN_HUE);
                 depth = ratio * (MAX_DEPTH - MIN_DEPTH) + MIN_DEPTH;
 
                 item.setDepth( (int) depth);
-                System.out.printf("\nAt %d row and %d column, the depth is %d\n", i, j, (int) depth);
+                System.out.printf("\nAt %d row and %d column or %.7f   %.7f, the hue is %.0f and the depth is %d\n", i, j, lat, lon, hue*360, (int) depth);
             }
         } catch (Exception e) {}
 
@@ -149,6 +149,34 @@ public class Main
         } catch (IOException e)
         {
             System.out.println("An error occurred writing the file.");
+            e.printStackTrace();
+        }
+    }
+
+    public static void outputNMEA(ArrayList<Waypoints> waypoints)
+    {
+        String output = "../Inputs/NMEA_Input.txt";
+        System.out.println("Writing the NMEA input to " + output);
+        try
+        {
+            FileOutputStream fileOutputStream = new FileOutputStream(output);
+            PrintStream printer = new PrintStream(fileOutputStream);
+
+            double lat, lon;
+            int depth;
+
+            for (Waypoints item : waypoints)
+            {
+                lat = item.getLattitude();
+                lon = item.getLongitude();
+                depth = item.getDepth();
+                printer.printf("%.7f,%.7f,%d\n", lat, lon, depth);
+            }
+            printer.close();
+            System.out.println("Successfully wrote to the NMEA input.");
+        } catch (IOException e)
+        {
+            System.out.println("An error occurred writing the NMEA input file.");
             e.printStackTrace();
         }
     }
