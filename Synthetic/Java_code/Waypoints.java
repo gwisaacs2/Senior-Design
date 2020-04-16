@@ -20,11 +20,17 @@ public class Waypoints
         this.decimal_long = longitude;
     }
 
+    void setDepth(int depth)
+    { this.depth = depth; }
+
     void setLattitude(double decimal_lat) //setter
     { this.decimal_lat = decimal_lat; }
 
     void setLongitude(double decimal_long) //setter
     { this.decimal_long = decimal_long; }
+
+    int getDepth()
+    {return depth;}
 
     double getLattitude() //getter
     {return decimal_lat; }
