@@ -40,7 +40,7 @@ public class Main
         waypoints = findPath(waypoints, radians); // get waypoints for the rest of the path
 
         getDepths(waypoints, image_location); // find the depths at each waypoint
-//         markObstacles(waypoints); // outputs file with flags at the obstacles
+        markObstacles(waypoints); // outputs file with flags at the obstacles
 
         outputWaypoints(waypoints, "../Outputs/" + output + ".txt"); //output the track of the whole path
         outputNMEA(waypoints);
@@ -180,7 +180,48 @@ public class Main
             e.printStackTrace();
         }
     }
-    
+
+    public static void markObstacles(ArrayList<Waypoints> waypoints)
+    {
+        final int OBSTACLE_THRESHOLD = 10;
+        final String ICON = "Flag, Red";
+        String output = "../Outputs/Obstacles.txt";
+        System.out.println("Writing the obstacles to " + output);
+        try
+        {
+            FileOutputStream fileOutputStream = new FileOutputStream(output);
+            PrintStream printer = new PrintStream(fileOutputStream);
+            double lat, lon;
+            int counter = 0, depth;
+
+            printer.println("type\tlatitude\tlongitude\tname\ticon");
+
+
+            for (Waypoints item : waypoints)
+            {
+                lat = item.getLattitude();
+                lon = item.getLongitude();
+                depth = item.getDepth();
+
+                if (depth < OBSTACLE_THRESHOLD)
+                {
+                    counter++;
+                    printer.printf("W\t%.7f\t%.7f\t\t%s\n", lat, lon, ICON);
+                }
+            }
+            printer.close();
+            if (counter < 1)
+            {
+                System.out.println("No obstacles found");
+            }
+            System.out.println("Successfully wrote to the obstacle output.");
+        } catch (IOException e)
+        {
+            System.out.println("An error occurred writing the obstacle output file.");
+            e.printStackTrace();
+        }
+    }
+
     public static ArrayList<Waypoints> insertWaypoints(ArrayList<Waypoints> waypoints, String input)
     {
         System.out.println("Reading GPS coordinates from " + input + "...");
