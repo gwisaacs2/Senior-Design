@@ -50,7 +50,7 @@ public class Main
 
     public static void getDepths(ArrayList<Waypoints> waypoints, String image_location)
     {
-        final int MAX_DEPTH = 1000;
+        final int MAX_DEPTH = 60;
         final int MIN_DEPTH = 0;
         final int MAX_HUE = 240;
         final int MIN_HUE = 0;
@@ -93,6 +93,12 @@ public class Main
                 hue = hsb[0];
                 ratio = ( (hue * 360) - MIN_HUE ) / (MAX_HUE - MIN_HUE);
                 depth = ratio * (MAX_DEPTH - MIN_DEPTH) + MIN_DEPTH;
+                if (depth > MAX_DEPTH)
+                    depth = MAX_DEPTH;
+                if (depth < 0)
+                {
+                    System.out.println("Something is difeinitely wrong because you got a negative depth.");
+                }
 
                 item.setDepth( (int) depth);
                 System.out.printf("\nAt %d row and %d column or %.7f   %.7f, the hue is %.0f and the depth is %d\n", i, j, lat, lon, hue*360, (int) depth);
