@@ -8,7 +8,7 @@ public class DepthToColor
         Scanner scanner = new Scanner(System.in);
         boolean cont = true;
         
-        final int MAX_DEPTH = 1000; // Max depth of 1000
+        final int MAX_DEPTH = 60; // Max depth of 1000
         final int MIN_DEPTH = 0;
         final int MAX_HSL = 240; // I chose 240 because that is dark blue
         final int MIN_HSL = 0;
