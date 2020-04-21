@@ -24,7 +24,8 @@ public class Main
     {
         String input = args[0];
         String output = args[1];
-        int heading = Integer.valueOf(args[2]);
+        int sweeps = Integer.valueOf(args[2]);
+        int heading = Integer.valueOf(args[3]);
         if (heading < 0 || heading > 360)
         {
             System.out.println("Heading not valid...");
@@ -32,12 +33,12 @@ public class Main
         }
         double radians = Math.toRadians(90 - heading); //converts heading (compass) to trig. longitude is x axis and lat is y axis
 
-        final String image_location = "../Pictures/Puerto_Rico_colored.jpg";
+        final String image_location = "../Pictures/Bahia_de_boqueron_colored.jpg";
 
         ArrayList<Waypoints> waypoints = new ArrayList<Waypoints>(); //array containing our waypoints
 
-        waypoints = insertWaypoints( waypoints, "../Inputs/" + input + ".txt" ); //insert the first run
-        waypoints = findPath(waypoints, radians); // get waypoints for the rest of the path
+        waypoints = insertWaypoints( waypoints, input); //insert the first run
+        waypoints = findPath(waypoints, radians, sweeps); // get waypoints for the rest of the path
 
         getDepths(waypoints, image_location); // find the depths at each waypoint
         markObstacles(waypoints); // outputs file with flags at the obstacles
@@ -55,10 +56,10 @@ public class Main
         final int MAX_HUE = 240;
         final int MIN_HUE = 0;
 
-        final double LAT_MIN = 18.426;
-        final double LAT_MAX = 18.740;
-        final double LON_MIN = -66.50;
-        final double LON_MAX = -66.00;
+        final double LAT_MIN =  18.001498;
+        final double LAT_MAX =  18.034106;
+        final double LON_MIN = -67.228883;
+        final double LON_MAX = -67.163433;
 
         System.out.println("Scanning the water for debris...");
         System.out.println("Reading from " + image_location);
@@ -107,16 +108,17 @@ public class Main
 
 
     }
-    public static ArrayList<Waypoints> findPath(ArrayList<Waypoints> waypoints, double radians)
+
+    public static ArrayList<Waypoints> findPath(ArrayList<Waypoints> waypoints, double radians, int sweeps)
     {
         System.out.println("Finding the optimal path...");
-        final double CONST_VAL = 0.0008; // distance each sweep from the last (from the shore)
-        final int NUM_SWEEPS = 8 - 1; // number of total sweeps - 1 because we did first sweep
+        final double CONST_VAL = 0.0004; // distance each sweep from the last (from the shore)
+        sweeps = sweeps - 1; // number of total sweeps - 1 because we did first sweep
         double lat, lon;
         int initWaypoints = waypoints.size(); // number of initial waypoints
         int index = initWaypoints; // already did the first sweep
         int prev_index; // this is the waypoint that is in between the current waypoint and the shore
-        for (int i = 0; i < NUM_SWEEPS; i++)
+        for (int i = 0; i < sweeps; i++)
         {
             for(int j = 0; j < initWaypoints; j++)
             {
@@ -189,7 +191,7 @@ public class Main
 
     public static void markObstacles(ArrayList<Waypoints> waypoints)
     {
-        final int OBSTACLE_THRESHOLD = 10;
+        final int OBSTACLE_THRESHOLD = 8;
         final String ICON = "Flag, Red";
         String output = "../Outputs/Obstacles.txt";
         System.out.println("Writing the obstacles to " + output);
