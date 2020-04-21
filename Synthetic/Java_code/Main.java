@@ -77,7 +77,7 @@ public class Main
 
             width = image.getWidth();
             height = image.getHeight();
-            System.out.printf("\n---------------\nHeight: %d\nWidth: %d\n------------\n", height, width);
+//            System.out.printf("\n---------------\nHeight: %d\nWidth: %d\n------------\n", height, width);
 
             int i, j;
             float hue;
@@ -102,7 +102,7 @@ public class Main
                 }
 
                 item.setDepth( (int) depth);
-                System.out.printf("\nAt %d row and %d column or %.7f   %.7f, the hue is %.0f and the depth is %d\n", i, j, lat, lon, hue*360, (int) depth);
+//                System.out.printf("\nAt %d row and %d column or %.7f   %.7f, the hue is %.0f and the depth is %d\n", i, j, lat, lon, hue*360, (int) depth);
             }
         } catch (Exception e) {}
 

@@ -55,12 +55,12 @@ std::string DecimalToDegree(double decimal){
 	return a+b;
 }
 
-int main(int argc, char **argv){std::cout<<"start";
+int main(int argc, char **argv){
 	double timeTaken = 123519;
 	std::string remainingVars = "2,10,0.6,791.6,M,-32.8,M,,";
 	
 	std::vector<double> vectOfNMEA;
-	std::ifstream inputFile("NMEA_input.txt");
+	std::ifstream inputFile("../Inputs/NMEA_input.txt");
 	std::string str;
 	if (inputFile.is_open())
 	{
@@ -77,7 +77,7 @@ int main(int argc, char **argv){std::cout<<"start";
 	for (ite; ite != vectOfNMEA.end(); ite++)
 	{
 		std::string myString;
-		std::ofstream outputFile("NMEA.txt");
+		std::ofstream outputFile("../Inputs/NMEA.txt");
 		switch (count)
 		{
 			case 1:
@@ -133,7 +133,7 @@ int main(int argc, char **argv){std::cout<<"start";
 				break;
 			}
 		}
-		outputFile.close(); std::cout<<"end";
+		outputFile.close();
 	}
 	return 0;
 }
