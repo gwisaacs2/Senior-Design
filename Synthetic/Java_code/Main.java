@@ -178,7 +178,7 @@ public class Main
                 lat = item.getLattitude();
                 lon = item.getLongitude();
                 depth = item.getDepth();
-                printer.printf("%.7f,%.7f,%d\n", lat, lon, depth);
+                printer.printf("%.7f\n%.7f\n%d\n", lat, lon, depth);
             }
             printer.close();
             System.out.println("Successfully wrote to the NMEA input.");
