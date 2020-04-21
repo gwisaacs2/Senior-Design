@@ -1,4 +1,9 @@
-To use this program, you will type in your command prompt / terminal in the folder that the files are in:
+To use this program, you will type in your command prompt / terminal. Make sure your current path in the terminal is Senior-Design/Synthetic.
+
+To run on Windows type: bash run.sh
+To run on Mac type: ./run.sh
+
+The Java code can be run in the Java_code folder with this:
 
 java Main -input -output - sweeps -heading
 
