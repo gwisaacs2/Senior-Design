@@ -93,6 +93,14 @@ public class Main
             FileInputStream fis_ob2 = new FileInputStream(ob2_file);
             ob2 = ImageIO.read(fis_ob2);
 
+            // ob3
+            File ob3_file = new File("../Pictures/ob3.png");
+            if (!ob3_file.canRead())
+                System.out.println("Cannot read ob3");
+            FileInputStream fis_ob3 = new FileInputStream(ob3_file);
+            ob3 = ImageIO.read(fis_ob3);
+
+
 
             System.out.println("Placing obstacles...");
             int obstacle, xcoord, ycoord;
@@ -100,7 +108,7 @@ public class Main
             for(int i = 0; i < NUM_OBSTACLES; i++)
             {
                 angle = Math.floor(Math.random() * 360 + 1);
-                xcoord = (int) (Math.random() * (800 - 200));
+                xcoord = (int) (Math.random() * (1200 - 200));
                 ycoord = (int) (Math.random() * (500 - 100) + 100);
                 obstacle = (int) (Math.random() * 2 + 1);
                 switch (obstacle)
@@ -111,6 +119,8 @@ public class Main
                     case 2:
                         temp = rotateImageByDegrees(ob2, angle);
                         break;
+                    case 3:
+                        temp = rotateImageByDegrees(ob3, angle);
                     default:
                         temp = rotateImageByDegrees(ob2, angle);
                 }
