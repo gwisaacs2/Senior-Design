@@ -13,8 +13,9 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-
-
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.awt.geom.AffineTransform;
 
 
 public class Main
@@ -33,20 +34,121 @@ public class Main
         }
         double radians = Math.toRadians(90 - heading); //converts heading (compass) to trig. longitude is x axis and lat is y axis
 
-        final String image_location = "../Pictures/Bahia_de_boqueron_colored.jpg";
+        final String input_image = "../Pictures/Bahia_de_boqueron_colored.jpg";
+        final String working_image = "../Pictures/working_image.jpg";
+
+        placeObstacles(input_image, working_image);
 
         ArrayList<Waypoints> waypoints = new ArrayList<Waypoints>(); //array containing our waypoints
 
         waypoints = insertWaypoints( waypoints, input); //insert the first run
         waypoints = findPath(waypoints, radians, sweeps); // get waypoints for the rest of the path
 
-        getDepths(waypoints, image_location); // find the depths at each waypoint
+        getDepths(waypoints, working_image); // find the depths at each waypoint
         markObstacles(waypoints); // outputs file with flags at the obstacles
 
         outputWaypoints(waypoints, "../Outputs/" + output + ".txt"); //output the track of the whole path
         outputNMEA(waypoints);
 
 
+    }
+
+    public static void placeObstacles(String input_image, String output_image)
+    {
+        final int NUM_OBSTACLES = 5;
+        System.out.println("Creating working image..");
+
+        BufferedImage original, working, temp, ob1, ob2, ob3, ob4, ob5;
+        int height, width;
+        try
+        {
+            System.out.println("Reading image...");
+            File infile = new File(input_image);
+            if (!infile.canRead())
+                System.out.println("Cannot read");
+            FileInputStream fis = new FileInputStream(infile);
+            original = ImageIO.read(fis);
+
+            width = original.getWidth();
+            height = original.getHeight();
+
+            System.out.println("Copying original image to working image");
+            working = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            Graphics g = working.createGraphics();
+            g.drawImage(original, 0, 0, null);
+
+            System.out.println("Loading obstacles...");
+
+            // ob 1
+            File ob1_file = new File("../Pictures/ob1.png");
+            if (!ob1_file.canRead())
+                System.out.println("Cannot read ob1");
+            FileInputStream fis_ob1 = new FileInputStream(ob1_file);
+            ob1 = ImageIO.read(fis_ob1);
+
+            // ob2
+            File ob2_file = new File("../Pictures/ob2.png");
+            if (!ob2_file.canRead())
+                System.out.println("Cannot read ob2");
+            FileInputStream fis_ob2 = new FileInputStream(ob2_file);
+            ob2 = ImageIO.read(fis_ob2);
+
+
+            System.out.println("Placing obstacles...");
+            int obstacle, xcoord, ycoord;
+            double angle;
+            for(int i = 0; i < NUM_OBSTACLES; i++)
+            {
+                angle = Math.floor(Math.random() * 360 + 1);
+                xcoord = (int) (Math.random() * (800 - 200));
+                ycoord = (int) (Math.random() * (500 - 100) + 100);
+                obstacle = (int) (Math.random() * 2 + 1);
+                switch (obstacle)
+                {
+                    case 1:
+                        temp = rotateImageByDegrees(ob1, angle);
+                        break;
+                    case 2:
+                        temp = rotateImageByDegrees(ob2, angle);
+                        break;
+                    default:
+                        temp = rotateImageByDegrees(ob2, angle);
+                }
+                g.drawImage(temp, xcoord, ycoord, null);
+
+            }
+            System.out.println("Writing image...");
+            File outfile = new File(output_image);
+            ImageIO.write(working, "jpg", outfile);
+
+        } catch (Exception e) {System.out.println(e);}
+    }
+
+    public static BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
+
+        double rads = Math.toRadians(angle);
+        double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));
+        int w = img.getWidth();
+        int h = img.getHeight();
+        int newWidth = (int) Math.floor(w * cos + h * sin);
+        int newHeight = (int) Math.floor(h * cos + w * sin);
+
+        BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = rotated.createGraphics();
+        AffineTransform at = new AffineTransform();
+        at.translate((newWidth - w) / 2, (newHeight - h) / 2);
+
+        int x = w / 2;
+        int y = h / 2;
+
+        at.rotate(rads, x, y);
+        g2d.setTransform(at);
+        g2d.drawImage(img, 0, 0, null);
+        g2d.setColor(Color.RED);
+        g2d.drawRect(0, 0, newWidth - 1, newHeight - 1);
+        g2d.dispose();
+
+        return rotated;
     }
 
     public static void getDepths(ArrayList<Waypoints> waypoints, String image_location)
