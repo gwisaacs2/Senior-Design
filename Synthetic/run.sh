@@ -24,3 +24,4 @@ echo "Converting to NMEA sentences..."
 ./a.out
 
 echo "Converting NMEA sentences into NMEA file.."
+# This is where I'll run Alex's code
