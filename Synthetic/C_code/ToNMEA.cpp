@@ -82,7 +82,11 @@ int main(int argc, char **argv){
 	for (ite; ite != vectOfNMEA.end(); ite++)
 	{
 		std::string myString;
+<<<<<<< HEAD
 		outputFile.open("../Outputs/NMEA.nmea", std::ios_base::app);
+=======
+		outputFile.open("../Inputs/NMEA.txt", std::ios_base::app);
+>>>>>>> 9b4cd1368868166e5c043873775272d390988962
 		switch (count)
 		{
 			case 1:
