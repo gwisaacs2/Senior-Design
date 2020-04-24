@@ -55,7 +55,7 @@ public class Main
 
     public static void placeObstacles(String input_image, String output_image)
     {
-        final int NUM_OBSTACLES = 5;
+        final int NUM_OBSTACLES = 7;
         System.out.println("Creating working image..");
 
         BufferedImage original, working, temp, ob1, ob2, ob3, ob4, ob5;
@@ -74,7 +74,7 @@ public class Main
 
             System.out.println("Copying original image to working image");
             working = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-            Graphics g = working.createGraphics();
+            Graphics2D g = working.createGraphics();
             g.drawImage(original, 0, 0, null);
 
             System.out.println("Loading obstacles...");
@@ -100,6 +100,20 @@ public class Main
             FileInputStream fis_ob3 = new FileInputStream(ob3_file);
             ob3 = ImageIO.read(fis_ob3);
 
+            // ob4
+            File ob4_file = new File("../Pictures/ob4.png");
+            if (!ob4_file.canRead())
+                System.out.println("Cannot read ob4");
+            FileInputStream fis_ob4 = new FileInputStream(ob4_file);
+            ob4 = ImageIO.read(fis_ob4);
+
+            // ob5
+            File ob5_file = new File("../Pictures/ob5.png");
+            if (!ob5_file.canRead())
+                System.out.println("Cannot read ob5");
+            FileInputStream fis_ob5 = new FileInputStream(ob5_file);
+            ob5 = ImageIO.read(fis_ob5);
+
 
 
             System.out.println("Placing obstacles...");
@@ -110,7 +124,7 @@ public class Main
                 angle = Math.floor(Math.random() * 360 + 1);
                 xcoord = (int) (Math.random() * (1200 - 200));
                 ycoord = (int) (Math.random() * (500 - 100) + 100);
-                obstacle = (int) (Math.random() * 2 + 1);
+                obstacle = (int) (Math.random() * 5 + 1);
                 switch (obstacle)
                 {
                     case 1:
@@ -121,6 +135,13 @@ public class Main
                         break;
                     case 3:
                         temp = rotateImageByDegrees(ob3, angle);
+                        break;
+                    case 4:
+                        temp = rotateImageByDegrees(ob4, angle);
+                        break;
+                    case 5:
+                        temp = rotateImageByDegrees(ob5, angle);
+                        break;
                     default:
                         temp = rotateImageByDegrees(ob2, angle);
                 }
@@ -134,7 +155,8 @@ public class Main
         } catch (Exception e) {System.out.println(e);}
     }
 
-    public static BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
+    public static BufferedImage rotateImageByDegrees(BufferedImage img, double angle)
+    {
 
         double rads = Math.toRadians(angle);
         double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));
@@ -304,7 +326,7 @@ public class Main
     public static void markObstacles(ArrayList<Waypoints> waypoints)
     {
         final int OBSTACLE_THRESHOLD = 8;
-        final String ICON = "Flag, Red";
+        final String ICON = "Flag, Green";
         String output = "../Outputs/Obstacles.txt";
         System.out.println("Writing the obstacles to " + output);
         try

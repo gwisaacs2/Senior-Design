@@ -6,7 +6,7 @@ GCC_files="*.cpp"
 
 input="../Inputs/input.txt"
 output="../Outputs/output"
-sweeps=100
+sweeps=130
 heading=270
 
 cd "Java_code"
